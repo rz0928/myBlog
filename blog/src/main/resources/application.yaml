@@ -10,7 +10,6 @@ spring:
     multipart:
       max-file-size: 2MB
       max_request-size: 5MB
-
   redis:
     host: 47.120.37.44
     username: default
@@ -25,3 +24,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+oss:
+  accessKey: uUHtuZM4zl2rZyaBAAytvvD4yP3YjVUvRlD7Mbjf
+  secretKey: QLvMsDvlEokB49brrFezaUcBfH5wgSrmLMZI1-4Z
+  bucket: my-blog-imag

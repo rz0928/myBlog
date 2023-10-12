@@ -1,10 +1,9 @@
 package com.example.blog.controller;
 
+import com.example.blogframework.entity.User;
 import com.example.blogframework.service.UserService;
-import com.example.blogframework.utils.ResponseResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.utils.ResponseResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 @RestController
@@ -15,5 +14,13 @@ public class UserController {
     @GetMapping("/userInfo")
     public ResponseResult userInfo(){
         return userService.userInfo();
+    }
+    @PutMapping("/userInfo")
+    public ResponseResult updateUserInfo(@RequestBody User user){
+        return userService.updateUserInfo(user);
+    }
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody User user){
+        return userService.register(user);
     }
 }

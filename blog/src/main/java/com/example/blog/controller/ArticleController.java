@@ -1,10 +1,8 @@
 package com.example.blog.controller;
 
 import com.example.blogframework.service.ArticleService;
-import com.example.blogframework.service.impl.ArticleServiceImpl;
-import com.example.blogframework.utils.ResponseResult;
+import com.example.utils.ResponseResult;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
@@ -24,8 +22,11 @@ public class ArticleController {
         return articleService.articleList(pageNum,pageSize,categoryId);
     }
     @GetMapping("/{id}")
-    public ResponseResult getArticleDetail( @PathVariable("id") Long articleId){
+    public ResponseResult getArticleDetail(@PathVariable("id") Long articleId){
         return articleService.getArticleDetail(articleId);
     }
-
+    @PutMapping("/updateViewCount/{id}")
+    public ResponseResult updateViewCount(@PathVariable("id")Long articleId){
+        return articleService.updateViewCount(articleId);
+    }
 }

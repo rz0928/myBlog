@@ -1,6 +1,6 @@
 package com.example.blog.config;
 
-import com.example.blogframework.filter.JwtAuthenticationTokenFilter;
+import com.example.blog.filter.JwtAuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
-    JwtAuthenticationTokenFilter jwtAuthenticationTokrnFilter;
+    JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Resource
     AuthenticationEntryPoint authenticationEntryPoint;
     @Resource
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.logout().disable();
         //把jwtAuthenticationTokenFilter添加到SpringSecurity的过滤器链中
-        http.addFilterBefore(jwtAuthenticationTokrnFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //允许跨域
         http.cors();
     }
