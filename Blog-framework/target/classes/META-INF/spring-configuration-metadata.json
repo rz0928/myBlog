@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "oss",
+      "type": "com.example.blogframework.service.impl.UpLoadServiceImpl",
+      "sourceType": "com.example.blogframework.service.impl.UpLoadServiceImpl"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

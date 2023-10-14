@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.blog.OssTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.032 s - in com.example.blog.OssTest
