@@ -35,7 +35,7 @@ public class Role  {
     private String status;
     //删除标志（0代表存在 1代表删除）
     @TableField(fill = FieldFill.INSERT)
-    private String delFlag;
+    private Integer delFlag;
     //创建者
     @TableField(fill = FieldFill.INSERT)
     private Long createBy;

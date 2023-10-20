@@ -25,7 +25,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<BriefMenuTreeVo> selectAllBriefMenu();
 
-    List<BriefMenuTreeVo> selectBriefMenuByUserId(Long id);
 }
 
 

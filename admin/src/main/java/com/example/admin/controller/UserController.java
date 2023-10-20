@@ -1,6 +1,7 @@
 package com.example.admin.controller;
 
 import com.example.blogframework.dto.AddUserDto;
+import com.example.blogframework.dto.ChangeUserStatus;
 import com.example.blogframework.dto.UpdateUserDto;
 import com.example.blogframework.service.UserService;
 import com.example.utils.ResponseResult;
@@ -32,4 +33,9 @@ public class UserController {
     public ResponseResult updateUser(@RequestBody UpdateUserDto updateUserDto){
         return userService.updateUser(updateUserDto);
     }
+    @PutMapping("/changeStatus")
+    public ResponseResult changeUserStatus(@RequestBody ChangeUserStatus changeUserStatus){
+        return userService.changeStatus(changeUserStatus);
+    }
+
 }

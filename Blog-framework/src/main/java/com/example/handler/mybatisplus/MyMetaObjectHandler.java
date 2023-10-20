@@ -26,12 +26,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.setFieldValByName("createBy",userId , metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
         this.setFieldValByName("updateBy", userId, metaObject);
-        this.setFieldValByName("delFlag","0",metaObject);
+        this.setFieldValByName("delFlag",0,metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName(" ", SecurityUtils.getUserId(), metaObject);
+        this.setFieldValByName("updateBy", SecurityUtils.getUserId(), metaObject);
     }
 }

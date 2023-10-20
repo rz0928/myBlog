@@ -2,6 +2,7 @@ package com.example.admin.controller;
 
 import com.example.blogframework.dto.AddLinkDto;
 import com.example.blogframework.dto.UpdateLinkDto;
+import com.example.blogframework.dto.UpdateLinkStatusDto;
 import com.example.blogframework.service.LinkService;
 import com.example.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class LinkController {
     }
     @DeleteMapping("/{id}")
     public ResponseResult deleteLinkById(@PathVariable Long id){
-        return  linkService.deleteLinkById(id);
+        return linkService.deleteLinkById(id);
+    }
+    @PutMapping("/changeLinkStatus")
+    public ResponseResult changeLinkStatus(@RequestBody UpdateLinkStatusDto updateLinkStatusDto){
+        return linkService.changeLinkStatus(updateLinkStatusDto);
     }
 }

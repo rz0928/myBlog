@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.blogframework.dto.AddLinkDto;
 import com.example.blogframework.dto.UpdateLinkDto;
+import com.example.blogframework.dto.UpdateLinkStatusDto;
 import com.example.blogframework.model.ListPageLinkVo;
 import com.example.blogframework.model.PageVo;
 import com.example.constants.SystemConstants;
@@ -77,6 +78,15 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
     public ResponseResult updateLink(UpdateLinkDto updateLinkDto) {
         Link link = BeanCopyUtils.copyBean(updateLinkDto, Link.class);
         updateById(link);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult changeLinkStatus(UpdateLinkStatusDto updateLinkStatusDto) {
+        LambdaUpdateWrapper<Link> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(Link::getStatus,updateLinkStatusDto.getStatus());
+        updateWrapper.eq(Link::getId,updateLinkStatusDto.getId());
+        update(updateWrapper);
         return ResponseResult.okResult();
     }
 }

@@ -6,6 +6,7 @@ import com.example.blogframework.dto.MenuDto;
 import com.example.blogframework.entity.Menu;
 import com.example.blogframework.mapper.MenuMapper;
 import com.example.blogframework.model.BriefMenuTreeVo;
+import com.example.blogframework.model.BriefMenusVo;
 import com.example.blogframework.model.MenuVo;
 import com.example.blogframework.service.MenuService;
 import com.example.constants.SystemConstants;
@@ -100,8 +101,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     public ResponseResult deleteMenuById(Long menuId) {
         Menu menu = getById(menuId);
         LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Menu::getParentId,menu.getParentId());
-        if(list(queryWrapper).size() != 0){
+        queryWrapper.eq(Menu::getParentId,menu.getId());
+        if(!list(queryWrapper).isEmpty()){
             throw new RuntimeException("存在子菜单不允许删除");
         }
         removeById(menuId);
@@ -118,26 +119,26 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public ResponseResult getMenuTreeById(Long id) {
-        //todo bug1
         MenuMapper menuMapper = getBaseMapper();
-        List<BriefMenuTreeVo> briefMenuVos = null;
-        if (Objects.equals(id,1L)) {
-            briefMenuVos = menuMapper.selectAllBriefMenu();
-        } else {
-            briefMenuVos = menuMapper.selectBriefMenuByUserId(id);
-        }
-        List<BriefMenuTreeVo> briefMenuTreeVo = MenuTreeUtils.generateBriefMenuTree(briefMenuVos, 1L);
-        return ResponseResult.okResult(briefMenuTreeVo);
+        List<BriefMenuTreeVo> briefMenuVos = menuMapper.selectAllBriefMenu();
+        List<BriefMenuTreeVo> briefMenuTreeVo = MenuTreeUtils.generateBriefMenuTree(briefMenuVos, 0L);
+        BriefMenusVo briefMenusVo = new BriefMenusVo(briefMenuTreeVo);
+        return ResponseResult.okResult(briefMenusVo);
     }
 
     static class MenuTreeUtils{
         private static List<MenuVo> generateMenuTree(List<MenuVo> menuVos, Long parentId) {
+            if(menuVos.isEmpty())
+                return null;
             return menuVos.stream()
                     .filter(menuVo -> Objects.equals(menuVo.getParentId(), parentId))
                     .peek(menuVo -> menuVo.setChildren(generateMenuTree(menuVos, menuVo.getId())))
                     .collect(Collectors.toList());
         }
         public static List<BriefMenuTreeVo> generateBriefMenuTree(List<BriefMenuTreeVo> briefMenuVos,Long parentId){
+            if(briefMenuVos.isEmpty()){
+                return null;
+            }
             return briefMenuVos.stream()
                     .filter(briefMenuVo -> Objects.equals(briefMenuVo.getParentId(),parentId))
                     .peek(briefMenuVo -> briefMenuVo.setChildren(generateBriefMenuTree(briefMenuVos, briefMenuVo.getId())))

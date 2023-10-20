@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.blogframework.dto.AddRoleDto;
 import com.example.blogframework.dto.UpdateRoleDto;
 import com.example.blogframework.dto.UpdateRoleStatusDto;
-import com.example.blogframework.entity.Link;
 import com.example.blogframework.entity.Role;
 import com.example.blogframework.entity.RoleMenu;
 import com.example.blogframework.mapper.RoleMapper;
@@ -18,14 +17,13 @@ import com.example.blogframework.service.RoleService;
 import com.example.constants.SystemConstants;
 import com.example.utils.BeanCopyUtils;
 import com.example.utils.ResponseResult;
-import org.apache.ibatis.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -58,6 +56,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public ResponseResult listAllRole(Integer pageNum, Integer pageSize, String roleName, String status) {
         LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Role::getDelFlag, SystemConstants.STATUS_NORMAL);
+        queryWrapper.eq(StringUtils.hasText(roleName),Role::getRoleName,roleName);
+        queryWrapper.eq(StringUtils.hasText(status),Role::getStatus,status);
         Page<Role> page = new Page<>(pageNum,pageSize );
         page(page,queryWrapper);
         List<RoleVo> roleVoList = BeanCopyUtils.copyBeanList(page.getRecords(), RoleVo.class);
@@ -100,7 +100,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    @Transactional
     public ResponseResult updateRoleById(UpdateRoleDto updateRoleDto) {
         Role role = BeanCopyUtils.copyBean(updateRoleDto, Role.class);
         Long roleId = updateRoleDto.getId();

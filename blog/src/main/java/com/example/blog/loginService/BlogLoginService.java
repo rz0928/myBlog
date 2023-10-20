@@ -4,7 +4,7 @@ import com.example.blogframework.entity.User;
 import com.example.utils.ResponseResult;
 
 public interface BlogLoginService {
-    public ResponseResult login(User user);
+    ResponseResult login(User user);
 
     ResponseResult logout();
 }
