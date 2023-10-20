@@ -27,7 +27,6 @@ public class Tag implements Serializable {
     /**
      *
      */
-    @ApiModelProperty("")
     private Long id;
     /**
      * 标签名
@@ -45,16 +44,12 @@ public class Tag implements Serializable {
     //更新时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-    /**
-     * 删除标志（0代表未删除，1代表已删除）
-     */
-    @ApiModelProperty("删除标志（0代表未删除，1代表已删除）")
+
     @TableField(fill = FieldFill.INSERT)
     private Integer delFlag;
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
     private String remark;
 
     public Tag(String name, String remark) {

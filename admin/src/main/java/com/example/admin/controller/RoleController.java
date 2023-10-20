@@ -34,7 +34,7 @@ public class RoleController {
         return roleService.getRoleById(id);
     }
     @PutMapping()
-    public ResponseResult updateRoleById(UpdateRoleDto updateRoleDto){
+    public ResponseResult updateRoleById(@RequestBody UpdateRoleDto updateRoleDto){
         return roleService.updateRoleById(updateRoleDto);
     }
     @GetMapping("/listAllRole")

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.blogframework.dto.AddUserDto;
+import com.example.blogframework.dto.ChangeUserStatus;
 import com.example.blogframework.dto.UpdateUserDto;
 import com.example.blogframework.entity.Role;
 import com.example.blogframework.entity.RoleMenu;
@@ -120,7 +121,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>implements Use
         User user = BeanCopyUtils.copyBean(addUserDto, User.class);
         save(user);
         List<UserRole> userRoleList = addUserDto.getRoleIds().stream()
-                .map(roleId -> new UserRole(roleId, user.getId()))
+                .map(roleId -> new UserRole(user.getId(),roleId))
                 .collect(Collectors.toList());
         userRoleService.saveBatch(userRoleList);
         return ResponseResult.okResult();
@@ -149,9 +150,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>implements Use
                 .map(UserRole::getRoleId)
                 .collect(Collectors.toList());
         userRoleVo.setRoleIds(roleIds);
-        LambdaQueryWrapper<Role> roleQueryWrapper = new LambdaQueryWrapper<>();
-        roleQueryWrapper.in(Role::getId,roleIds);
-        List<Role> roles = roleService.list(roleQueryWrapper);
+        List<Role> roles = new ArrayList<>();
+        if(!roleIds.isEmpty()) {
+            LambdaQueryWrapper<Role> roleQueryWrapper = new LambdaQueryWrapper<>();
+            roleQueryWrapper.in(Role::getId, roleIds);
+            roles = roleService.list(roleQueryWrapper);
+        }
         userRoleVo.setRoles(roles);
         return ResponseResult.okResult(userRoleVo);
     }
@@ -194,6 +198,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>implements Use
                 }
             }
         });
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult changeStatus(ChangeUserStatus changeUserStatus) {
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(User::getStatus,changeUserStatus.getStatus());
+        updateWrapper.eq(User::getId,changeUserStatus.getUserId());
+        update(updateWrapper);
         return ResponseResult.okResult();
     }
 

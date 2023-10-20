@@ -1,6 +1,7 @@
 package com.example.blogframework.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.blogframework.dto.AddArticleDto;
@@ -63,15 +64,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (Objects.nonNull(categoryId) && categoryId > 0) {
             lambdaQueryWrapper.eq(Article::getCategoryId, categoryId);
         }
+        //todo wait to debug
         Page<Article> page = new Page<>(pageNum, pageSize);
         page(page, lambdaQueryWrapper);
         List<Article> articles = page.getRecords();
+        List<ArticleListVo> articleListVo = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
         //联查表category
-        articles=articles.stream()
-                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+        articleListVo = articleListVo.stream()
+                .peek(articleVo -> articleVo.setCategoryName(categoryService.getById(articleVo.getCategoryId()).getName()))
                 .collect(Collectors.toList());
-        List<ArticleListVo> ArticleListVo = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
-        PageVo pageVo = new PageVo(ArticleListVo, page.getTotal());
+        PageVo pageVo = new PageVo(articleListVo, page.getTotal());
         return ResponseResult.okResult(pageVo);
     }
     @Override
@@ -98,6 +100,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult addArticle(AddArticleDto articleDto) {
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         save(article);

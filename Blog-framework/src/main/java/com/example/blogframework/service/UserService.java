@@ -2,6 +2,7 @@ package com.example.blogframework.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.blogframework.dto.AddUserDto;
+import com.example.blogframework.dto.ChangeUserStatus;
 import com.example.blogframework.dto.UpdateUserDto;
 import com.example.blogframework.entity.User;
 import com.example.utils.ResponseResult;
@@ -29,5 +30,7 @@ public interface UserService extends IService<User> {
     ResponseResult getUserRoleById(Long id);
 
     ResponseResult updateUser(UpdateUserDto updateUserDto);
+
+    ResponseResult changeStatus(ChangeUserStatus changeUserStatus);
 }
 

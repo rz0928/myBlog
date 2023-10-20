@@ -26,7 +26,7 @@ public class BlogLoginController {
         return blogLoginService.login(user);
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/user/logout")
     public ResponseResult logout() {
         return blogLoginService.logout();
     }

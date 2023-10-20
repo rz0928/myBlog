@@ -62,7 +62,7 @@ public class Menu  {
     //备注
     private String remark;
     @TableField(fill = FieldFill.INSERT)
-    private String delFlag;
+    private Integer delFlag;
 
 
 

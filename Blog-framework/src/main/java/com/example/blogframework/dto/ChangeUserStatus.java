@@ -5,16 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AddCategoryDto {
-    private String name;
-    /**
-     * 描述
-     */
-    private String description;
-    /**
-     * 状态0:正常,1禁用
-     */
+@NoArgsConstructor
+public class ChangeUserStatus {
+    private Long userId;
     private String status;
 }
