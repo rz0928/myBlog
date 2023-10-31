@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     username: root
-    password: liujie288550
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&&characterEncoding=utf-8&&serverTimezone=Asia/Shanghai
   servlet:
@@ -11,10 +11,10 @@ spring:
       max-file-size: 2MB
       max_request-size: 5MB
   redis:
-    host: 47.120.37.44
+    host: 
     username: default
-    password: Liujie
-    port: 6379
+    password:
+    port: 
 mybatis-plus:
   configuration:
     log-impl:  org.apache.ibatis.logging.stdout.StdOutImpl
@@ -25,6 +25,6 @@ mybatis-plus:
       logic-not-delete-value: 0
       id-type: auto
 oss:
-  accessKey: uUHtuZM4zl2rZyaBAAytvvD4yP3YjVUvRlD7Mbjf
-  secretKey: QLvMsDvlEokB49brrFezaUcBfH5wgSrmLMZI1-4Z
-  bucket: my-blog-imag
+  accessKey: 
+  secretKey: 
+  bucket: 
